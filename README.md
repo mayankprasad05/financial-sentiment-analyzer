@@ -86,17 +86,17 @@ streamlit run app.py
 The application will open in your browser at http://localhost:8501.
 
 ---
-```
+
 ## Model Evaluation
 To run the offline benchmark suite and generate model metrics (Financial PhraseBank evaluation for FinBERT and ROUGE scores for BART):
 
 ```bash
 python eval.py
-
+```
 
 This updates performance reports and saves artifacts (such as finbert_confusion_matrix.png and summary_metrics.json) into the eval_results/ directory.
 
 ---
-```
+
 ## License
 This project is licensed under the MIT License.

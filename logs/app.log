@@ -2259,3 +2259,1373 @@ RuntimeError: Dataset scripts are no longer supported, but found financial_phras
 2026-09-23 18:37:28,907 - src.modeling - INFO - Generated summary (28 words)
 2026-09-23 18:37:28,954 - absl - INFO - Using default tokenizer.
 2026-09-23 18:37:29,033 - __main__ - INFO - Model evaluation pipeline finished. Results saved in 'eval_results/'.
+2026-10-22 03:56:29,008 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:29,008 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:29,010 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:29,013 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:56:40,184 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:40,184 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:40,185 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:40,185 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:40,189 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:40,189 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:40,191 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:56:40,191 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:56:42,382 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:42,382 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:42,382 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:42,383 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:42,383 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:42,383 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:42,384 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:42,384 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:42,384 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:42,387 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:56:42,387 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:56:42,387 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:56:43,037 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:43,037 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:43,037 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:43,037 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:56:43,039 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:43,039 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:43,039 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:43,039 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:56:43,043 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:43,043 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:43,043 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:43,043 - src.preprocessing - ERROR - SpaCy model 'en_core_web_sm' not found
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+2026-10-22 03:56:43,046 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:56:43,046 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:56:43,046 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:56:43,046 - src.pipeline - ERROR - Failed to initialize pipeline components
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 15, in __init__
+    self.nlp = spacy.load("en_core_web_sm")
+               ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\__init__.py", line 74, in load
+    return util.load_model(
+           ~~~~~~~~~~~~~~~^
+        name,
+        ^^^^^
+    ...<4 lines>...
+        config=config,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\spacy\util.py", line 531, in load_model
+    raise IOError(Errors.E050.format(name=name))
+OSError: [E050] Can't find model 'en_core_web_sm'. It doesn't seem to be a Python package or a valid path to a data directory.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\pipeline.py", line 15, in __init__
+    self.preprocessor = TranscriptPreprocessor()
+                        ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\git-repos\financial-sentiment-analyzer\src\preprocessing.py", line 19, in __init__
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: SpaCy model 'en_core_web_sm' not found. Run 'python -m spacy download en_core_web_sm'.
+2026-10-22 03:57:45,232 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline
+2026-10-22 03:57:45,232 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 03:57:45,711 - src.preprocessing - INFO - SpaCy model loaded successfully
+2026-10-22 03:57:45,711 - src.modeling - INFO - Initializing FinancialSentimentAnalyzer on device: cpu
+2026-10-22 03:57:46,087 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 03:57:46,337 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 03:57:46,569 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 03:57:46,823 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 03:57:47,781 - src.modeling - INFO - FinBERT model loaded successfully
+2026-10-22 03:57:47,781 - src.modeling - INFO - Initializing ExecutiveSummarizer on device: cpu
+2026-10-22 03:57:48,017 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 03:57:48,267 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 03:57:48,503 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 03:57:48,934 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 03:57:51,610 - src.modeling - INFO - BART model loaded successfully
+2026-10-22 03:57:51,611 - src.pipeline - INFO - Pipeline components initialized successfully
+2026-10-22 03:57:57,117 - src.pipeline - INFO - Starting pipeline with transcript of length 560 characters
+2026-10-22 03:57:57,117 - src.pipeline - INFO - Starting pipeline with transcript of length 560 characters
+2026-10-22 03:57:57,118 - src.preprocessing - INFO - Segmented into remarks (288 chars) and Q&A (243 chars)
+2026-10-22 03:57:57,118 - src.preprocessing - INFO - Segmented into remarks (288 chars) and Q&A (243 chars)
+2026-10-22 03:57:57,162 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:57:57,162 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:57:57,176 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:57:57,176 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:57:57,326 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:57:57,326 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:57:57,371 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:57:57,371 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:57:57,372 - src.pipeline - INFO - Sentiment metrics - Remarks: 0.2249, Q&A: 0.0465, Shift: -0.1783
+2026-10-22 03:57:57,372 - src.pipeline - INFO - Sentiment metrics - Remarks: 0.2249, Q&A: 0.0465, Shift: -0.1783
+2026-10-22 03:58:01,049 - src.modeling - INFO - Generated summary (37 words)
+2026-10-22 03:58:01,049 - src.modeling - INFO - Generated summary (37 words)
+2026-10-22 03:58:01,049 - src.pipeline - INFO - Pipeline execution completed successfully
+2026-10-22 03:58:01,049 - src.pipeline - INFO - Pipeline execution completed successfully
+2026-10-22 03:58:13,618 - src.pipeline - INFO - Starting pipeline with transcript of length 560 characters
+2026-10-22 03:58:13,618 - src.pipeline - INFO - Starting pipeline with transcript of length 560 characters
+2026-10-22 03:58:13,618 - src.pipeline - INFO - Starting pipeline with transcript of length 560 characters
+2026-10-22 03:58:13,618 - src.pipeline - INFO - Starting pipeline with transcript of length 560 characters
+2026-10-22 03:58:13,619 - src.preprocessing - INFO - Segmented into remarks (288 chars) and Q&A (243 chars)
+2026-10-22 03:58:13,619 - src.preprocessing - INFO - Segmented into remarks (288 chars) and Q&A (243 chars)
+2026-10-22 03:58:13,619 - src.preprocessing - INFO - Segmented into remarks (288 chars) and Q&A (243 chars)
+2026-10-22 03:58:13,619 - src.preprocessing - INFO - Segmented into remarks (288 chars) and Q&A (243 chars)
+2026-10-22 03:58:13,631 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:58:13,631 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:58:13,631 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:58:13,631 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:58:13,640 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:58:13,640 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:58:13,640 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:58:13,640 - src.preprocessing - INFO - Extracted 4 sentences
+2026-10-22 03:58:13,722 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:58:13,722 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:58:13,722 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:58:13,722 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:58:13,780 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:58:13,780 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:58:13,780 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:58:13,780 - src.modeling - INFO - Successfully analyzed 4 sentences
+2026-10-22 03:58:13,780 - src.pipeline - INFO - Sentiment metrics - Remarks: 0.2249, Q&A: 0.0465, Shift: -0.1783
+2026-10-22 03:58:13,780 - src.pipeline - INFO - Sentiment metrics - Remarks: 0.2249, Q&A: 0.0465, Shift: -0.1783
+2026-10-22 03:58:13,780 - src.pipeline - INFO - Sentiment metrics - Remarks: 0.2249, Q&A: 0.0465, Shift: -0.1783
+2026-10-22 03:58:13,780 - src.pipeline - INFO - Sentiment metrics - Remarks: 0.2249, Q&A: 0.0465, Shift: -0.1783
+2026-10-22 03:58:17,424 - src.modeling - INFO - Generated summary (37 words)
+2026-10-22 03:58:17,424 - src.modeling - INFO - Generated summary (37 words)
+2026-10-22 03:58:17,424 - src.modeling - INFO - Generated summary (37 words)
+2026-10-22 03:58:17,424 - src.modeling - INFO - Generated summary (37 words)
+2026-10-22 03:58:17,425 - src.pipeline - INFO - Pipeline execution completed successfully
+2026-10-22 03:58:17,425 - src.pipeline - INFO - Pipeline execution completed successfully
+2026-10-22 03:58:17,425 - src.pipeline - INFO - Pipeline execution completed successfully
+2026-10-22 03:58:17,425 - src.pipeline - INFO - Pipeline execution completed successfully
+2026-10-22 04:07:09,573 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline...
+2026-10-22 04:07:09,573 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 04:07:10,019 - src.preprocessing - INFO - SpaCy model loaded successfully
+2026-10-22 04:07:10,019 - src.modeling - INFO - Initializing FinancialSentimentAnalyzer on device: cpu
+2026-10-22 04:07:10,384 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:10,660 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 04:07:10,895 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 04:07:11,162 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:11,794 - src.modeling - INFO - FinBERT model loaded successfully
+2026-10-22 04:07:11,794 - src.summarizer - INFO - Initializing TranscriptSummarizer with model: facebook/bart-large-cnn
+2026-10-22 04:07:12,026 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 04:07:12,058 - src.summarizer - ERROR - Failed to load summarization model 'facebook/bart-large-cnn': 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\summarizer.py", line 16, in __init__
+    self.summarizer = pipeline(
+                      ~~~~~~~~^
+        "summarization",
+        ^^^^^^^^^^^^^^^^
+        model=model_name,
+        ^^^^^^^^^^^^^^^^^
+        device=device
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 1009, in pipeline
+    task = _resolve_deprecated_task(task)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 324, in _resolve_deprecated_task
+    raise KeyError(
+    ...<2 lines>...
+    )
+KeyError: 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+2026-10-22 04:07:16,077 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline...
+2026-10-22 04:07:16,077 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline...
+2026-10-22 04:07:16,078 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 04:07:16,078 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 04:07:16,474 - src.preprocessing - INFO - SpaCy model loaded successfully
+2026-10-22 04:07:16,474 - src.preprocessing - INFO - SpaCy model loaded successfully
+2026-10-22 04:07:16,475 - src.modeling - INFO - Initializing FinancialSentimentAnalyzer on device: cpu
+2026-10-22 04:07:16,475 - src.modeling - INFO - Initializing FinancialSentimentAnalyzer on device: cpu
+2026-10-22 04:07:16,706 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:16,706 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:16,946 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 04:07:16,946 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 04:07:17,179 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 04:07:17,179 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 04:07:17,427 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:17,427 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:17,833 - src.modeling - INFO - FinBERT model loaded successfully
+2026-10-22 04:07:17,833 - src.modeling - INFO - FinBERT model loaded successfully
+2026-10-22 04:07:17,833 - src.summarizer - INFO - Initializing TranscriptSummarizer with model: facebook/bart-large-cnn
+2026-10-22 04:07:17,833 - src.summarizer - INFO - Initializing TranscriptSummarizer with model: facebook/bart-large-cnn
+2026-10-22 04:07:18,065 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 04:07:18,065 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 04:07:18,072 - src.summarizer - ERROR - Failed to load summarization model 'facebook/bart-large-cnn': 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\summarizer.py", line 16, in __init__
+    self.summarizer = pipeline(
+                      ~~~~~~~~^
+        "summarization",
+        ^^^^^^^^^^^^^^^^
+        model=model_name,
+        ^^^^^^^^^^^^^^^^^
+        device=device
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 1009, in pipeline
+    task = _resolve_deprecated_task(task)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 324, in _resolve_deprecated_task
+    raise KeyError(
+    ...<2 lines>...
+    )
+KeyError: 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+2026-10-22 04:07:18,072 - src.summarizer - ERROR - Failed to load summarization model 'facebook/bart-large-cnn': 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\summarizer.py", line 16, in __init__
+    self.summarizer = pipeline(
+                      ~~~~~~~~^
+        "summarization",
+        ^^^^^^^^^^^^^^^^
+        model=model_name,
+        ^^^^^^^^^^^^^^^^^
+        device=device
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 1009, in pipeline
+    task = _resolve_deprecated_task(task)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 324, in _resolve_deprecated_task
+    raise KeyError(
+    ...<2 lines>...
+    )
+KeyError: 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+2026-10-22 04:07:20,066 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline...
+2026-10-22 04:07:20,066 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline...
+2026-10-22 04:07:20,066 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline...
+2026-10-22 04:07:20,066 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 04:07:20,066 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 04:07:20,066 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 04:07:20,346 - src.preprocessing - INFO - SpaCy model loaded successfully
+2026-10-22 04:07:20,346 - src.preprocessing - INFO - SpaCy model loaded successfully
+2026-10-22 04:07:20,346 - src.preprocessing - INFO - SpaCy model loaded successfully
+2026-10-22 04:07:20,347 - src.modeling - INFO - Initializing FinancialSentimentAnalyzer on device: cpu
+2026-10-22 04:07:20,347 - src.modeling - INFO - Initializing FinancialSentimentAnalyzer on device: cpu
+2026-10-22 04:07:20,347 - src.modeling - INFO - Initializing FinancialSentimentAnalyzer on device: cpu
+2026-10-22 04:07:20,581 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:20,581 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:20,581 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:20,819 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 04:07:20,819 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 04:07:20,819 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 04:07:21,056 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 04:07:21,056 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 04:07:21,056 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 04:07:21,308 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:21,308 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:21,308 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:07:21,807 - src.modeling - INFO - FinBERT model loaded successfully
+2026-10-22 04:07:21,807 - src.modeling - INFO - FinBERT model loaded successfully
+2026-10-22 04:07:21,807 - src.modeling - INFO - FinBERT model loaded successfully
+2026-10-22 04:07:21,807 - src.summarizer - INFO - Initializing TranscriptSummarizer with model: facebook/bart-large-cnn
+2026-10-22 04:07:21,807 - src.summarizer - INFO - Initializing TranscriptSummarizer with model: facebook/bart-large-cnn
+2026-10-22 04:07:21,807 - src.summarizer - INFO - Initializing TranscriptSummarizer with model: facebook/bart-large-cnn
+2026-10-22 04:07:22,040 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 04:07:22,040 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 04:07:22,040 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 04:07:22,049 - src.summarizer - ERROR - Failed to load summarization model 'facebook/bart-large-cnn': 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\summarizer.py", line 16, in __init__
+    self.summarizer = pipeline(
+                      ~~~~~~~~^
+        "summarization",
+        ^^^^^^^^^^^^^^^^
+        model=model_name,
+        ^^^^^^^^^^^^^^^^^
+        device=device
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 1009, in pipeline
+    task = _resolve_deprecated_task(task)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 324, in _resolve_deprecated_task
+    raise KeyError(
+    ...<2 lines>...
+    )
+KeyError: 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+2026-10-22 04:07:22,049 - src.summarizer - ERROR - Failed to load summarization model 'facebook/bart-large-cnn': 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\summarizer.py", line 16, in __init__
+    self.summarizer = pipeline(
+                      ~~~~~~~~^
+        "summarization",
+        ^^^^^^^^^^^^^^^^
+        model=model_name,
+        ^^^^^^^^^^^^^^^^^
+        device=device
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 1009, in pipeline
+    task = _resolve_deprecated_task(task)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 324, in _resolve_deprecated_task
+    raise KeyError(
+    ...<2 lines>...
+    )
+KeyError: 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+2026-10-22 04:07:22,049 - src.summarizer - ERROR - Failed to load summarization model 'facebook/bart-large-cnn': 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\summarizer.py", line 16, in __init__
+    self.summarizer = pipeline(
+                      ~~~~~~~~^
+        "summarization",
+        ^^^^^^^^^^^^^^^^
+        model=model_name,
+        ^^^^^^^^^^^^^^^^^
+        device=device
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 1009, in pipeline
+    task = _resolve_deprecated_task(task)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\transformers\pipelines\__init__.py", line 324, in _resolve_deprecated_task
+    raise KeyError(
+    ...<2 lines>...
+    )
+KeyError: 'The task summarization has been removed from transformers. Use the `text-generation` pipeline with a chat model instead. See the migration guide for more details: https://github.com/huggingface/transformers/blob/main/MIGRATION_GUIDE_V5.md#pipelines'
+2026-10-22 04:08:04,377 - src.pipeline - INFO - Initializing EarningsAnalysisPipeline...
+2026-10-22 04:08:04,377 - src.preprocessing - INFO - Initializing TranscriptPreprocessor
+2026-10-22 04:08:04,647 - src.preprocessing - INFO - SpaCy model loaded successfully
+2026-10-22 04:08:04,647 - src.modeling - INFO - Initializing FinancialSentimentAnalyzer on device: cpu
+2026-10-22 04:08:04,989 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:08:05,230 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 04:08:05,469 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 04:08:05,718 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/ProsusAI/finbert "HTTP/1.1 200 OK"
+2026-10-22 04:08:06,605 - src.modeling - INFO - FinBERT model loaded successfully
+2026-10-22 04:08:06,605 - src.summarizer - INFO - Initializing TranscriptSummarizer with model: facebook/bart-large-cnn
+2026-10-22 04:08:06,605 - src.summarizer - INFO - Using device: cpu
+2026-10-22 04:08:06,838 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 04:08:07,091 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-10-22 04:08:07,329 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-10-22 04:08:07,763 - httpx2 - INFO - HTTP Request: GET https://huggingface.co/api/models/facebook/bart-large-cnn "HTTP/1.1 200 OK"
+2026-10-22 04:08:10,210 - src.summarizer - INFO - BART summarization model and tokenizer loaded successfully.
+2026-10-22 04:08:19,206 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2024)...
+2026-10-22 04:08:19,206 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2024)...
+2026-10-22 04:08:21,380 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:08:21,380 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:05,695 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2024)...
+2026-10-22 04:09:05,695 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2024)...
+2026-10-22 04:09:05,695 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2024)...
+2026-10-22 04:09:05,695 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2024)...
+2026-10-22 04:09:05,697 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:05,697 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:05,697 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:05,697 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:09,539 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2025)...
+2026-10-22 04:09:09,539 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2025)...
+2026-10-22 04:09:09,539 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2025)...
+2026-10-22 04:09:09,539 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2025)...
+2026-10-22 04:09:09,539 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2025)...
+2026-10-22 04:09:09,539 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2025)...
+2026-10-22 04:09:09,540 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:09,540 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:09,540 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:09,540 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:09,540 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:09,540 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:12,571 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2026)...
+2026-10-22 04:09:12,571 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2026)...
+2026-10-22 04:09:12,571 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2026)...
+2026-10-22 04:09:12,571 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2026)...
+2026-10-22 04:09:12,571 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2026)...
+2026-10-22 04:09:12,571 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2026)...
+2026-10-22 04:09:12,571 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2026)...
+2026-10-22 04:09:12,571 - src.fetcher - INFO - Attempting to fetch transcript for TLRY (Q3 2026)...
+2026-10-22 04:09:12,573 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:12,573 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:12,573 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:12,573 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:12,573 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:12,573 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:12,573 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:12,573 - src.fetcher - ERROR - Error fetching transcript for TLRY: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "tlry" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,430 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2026)...
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:18,431 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,958 - src.fetcher - INFO - Attempting to fetch transcript for WBA (Q3 2025)...
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:21,960 - src.fetcher - ERROR - Error fetching transcript for WBA: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+Traceback (most recent call last):
+  File "D:\git-repos\financial-sentiment-analyzer\src\fetcher.py", line 14, in fetch_transcript_by_ticker
+    company = get_company(clean_symbol.lower())
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\exports.py", line 25, in get_company
+    company_info = get_symbols().lookup_company(symbol=symbol, exchange=exchange)
+  File "D:\git-repos\financial-sentiment-analyzer\venv\Lib\site-packages\earningscall\symbols.py", line 109, in lookup_company
+    raise InsufficientApiAccessError(
+    ...<2 lines>...
+    )
+earningscall.errors.InsufficientApiAccessError: "wba" requires an API Key for access.  To get your API Key, see: https://earningscall.biz/api-pricing
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:32,708 - src.fetcher - INFO - Attempting to fetch transcript for AAPL (Q3 2025)...
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:09:33,854 - src.fetcher - INFO - Successfully retrieved transcript text for AAPL.
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:27,587 - src.fetcher - INFO - Attempting to fetch transcript for MSFT (Q3 2025)...
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:28,737 - src.fetcher - INFO - Successfully retrieved transcript text for MSFT.
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:43,084 - src.pipeline - INFO - Executing pipeline on input transcript...
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:44,839 - src.preprocessing - INFO - Extracted 501 sentences from input transcript.
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences
+2026-10-22 04:10:58,460 - src.modeling - INFO - Successfully analyzed 501 sentences

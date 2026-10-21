@@ -1,0 +1,84 @@
+# ==========================================
+# Python Environments & Packages
+# ==========================================
+.venv/
+venv/
+ENV/
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ==========================================
+# Python Bytecode & Cache
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ==========================================
+# Machine Learning & NLP Model Caches
+# ==========================================
+# Ignores downloaded HuggingFace models, SpaCy artifacts, and saved model weights
+.cache/
+huggingface/
+checkpoints/
+*.pt
+*.pth
+*.bin
+*.onnx
+*.safetensors
+
+# ==========================================
+# Virtual Environment / Data / Transcripts
+# ==========================================
+# Avoid committing large raw transcript files or sensitive datasets
+data/raw/
+data/processed/
+*.csv
+*.json
+*.log
+
+# ==========================================
+# Secrets & API Keys
+# ==========================================
+# Secrets for earningscall API, environment variables, or Streamlit secrets
+.env
+.env.local
+.streamlit/secrets.toml
+
+# ==========================================
+# Streamlit & IDE Settings
+# ==========================================
+.streamlit/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ==========================================
+# OS & System Files
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==========================================
+# Testing & Coverage
+# ==========================================
+.pytest_cache/
+.coverage
+htmlcov/

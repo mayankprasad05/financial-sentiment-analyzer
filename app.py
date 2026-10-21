@@ -1,35 +1,22 @@
 import logging
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 import streamlit as st
 
 from src.logger_config import setup_logging
 from src.pipeline import EarningsAnalysisPipeline
+from src.fetcher import fetch_transcript_by_ticker
 
 logger = logging.getLogger(__name__)
 setup_logging(log_level=logging.INFO)
 
-# Page Configuration
+# Page Setup
 st.set_page_config(
     page_title="FinSentiment AI | Financial Intelligence Engine",
     page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-# Custom CSS for UI Enhancement
-st.markdown("""
-    <style>
-    .main { padding-top: 1rem; }
-    # div[data-testid="stMetric"] {
-    #     background-color: #1e293b; /* Dark navy background */
-    #     padding: 15px;
-    #     border-radius: 10px;
-    #     border: 1px solid #334155;
-    # }
-    </style>
-""", unsafe_allow_html=True)
 
 
 @st.cache_resource
@@ -41,63 +28,66 @@ def render_sidebar():
     with st.sidebar:
         st.title("⚙️ Engine Options")
         st.caption("Financial NLP Pipeline Configuration")
-        
+
         input_mode = st.radio(
             "Select Input Source",
-            ["Paste Transcript", "Select Stock Ticker (Demo)"],
+            ["Fetch Live Ticker", "Paste Transcript"],
             index=0
         )
-        
+
         st.divider()
         st.subheader("Model Metadata")
         st.markdown("""
         * **Sentiment Engine:** `ProsusAI/finbert`
         * **Summarizer Engine:** `facebook/bart-large-cnn`
-        * **Tokenizer / Segmentation:** SpaCy (`en_core_web_sm`)
+        * **Tokenizer:** SpaCy (`en_core_web_sm`)
+        * **Data Fetcher:** `earningscall` API
         """)
-        
+
         st.divider()
-        st.caption("Capstone Project — Financial Intelligence & NLP")
-        
+        st.caption("Financial Intelligence & NLP Pipeline")
+
     return input_mode
 
 
 def render_analytics(results: dict):
     metrics = results["metrics"]
-    
-    # Key Performance Indicators
+    sentence_details = results["sentence_details"]
+
     st.subheader("📌 Key Metric Indicators")
+
     kpi1, kpi2, kpi3, kpi4 = st.columns(4)
-    
+
+    net_sentiment = metrics["overall_net_sentiment"]
+    total = metrics["total_sentences"]
+
     kpi1.metric(
-        label="Remarks Net Sentiment",
-        value=f"{metrics['remarks_net_sentiment']:.2f}",
-        delta=f"{metrics['remarks_net_sentiment']:.2f}"
+        label="Overall Net Sentiment Score",
+        value=f"{net_sentiment:.2f}",
+        delta=f"{net_sentiment:.2f}",
+        delta_color="normal" if net_sentiment >= 0 else "inverse"
     )
     kpi2.metric(
-        label="Q&A Net Sentiment",
-        value=f"{metrics['qa_net_sentiment']:.2f}",
-        delta=f"{metrics['qa_net_sentiment']:.2f}"
+        label="Positive Sentences",
+        value=metrics["positive_count"],
+        delta=f"{(metrics['positive_count'] / total * 100) if total else 0:.1f}%"
     )
-    
-    shift = metrics['sentiment_shift']
     kpi3.metric(
-        label="Sentiment Shift (Q&A vs Remarks)",
-        value=f"{shift:.2f}",
-        delta=f"{shift:.2f}",
-        delta_color="normal" if shift >= 0 else "inverse"
+        label="Negative Sentences",
+        value=metrics["negative_count"],
+        delta=f"-{(metrics['negative_count'] / total * 100) if total else 0:.1f}%",
+        delta_color="inverse"
     )
     kpi4.metric(
         label="Total Sentences Parsed",
-        value=metrics["total_sentences"]
+        value=total
     )
 
     st.divider()
 
-    # Tabbed Interface for Detailed Views
     tab_summary, tab_visuals, tab_data = st.tabs([
-        "📝 Executive Summary", 
-        "📊 Sentiment Dynamics", 
+        "📝 Executive Summary",
+        "📊 Sentiment Dynamics",
         "🔍 Sentence Inspector"
     ])
 
@@ -107,54 +97,46 @@ def render_analytics(results: dict):
         st.caption("Generated via BART-Large-CNN transformer model.")
 
     with tab_visuals:
-        all_data = []
-        for item in results["remarks_details"]:
-            all_data.append({**item, "section": "Remarks"})
-        for item in results["qa_details"]:
-            all_data.append({**item, "section": "Q&A"})
-
-        if all_data:
-            df = pd.DataFrame(all_data)
+        if sentence_details:
+            df = pd.DataFrame(sentence_details)
             df['sentence_idx'] = range(1, len(df) + 1)
 
             col_left, col_right = st.columns(2)
 
             with col_left:
-                st.markdown("#### Net Sentiment Score Distribution")
+                st.markdown("#### Overall Sentiment Score Distribution")
                 fig_hist = px.histogram(
                     df,
                     x="net_sentiment",
-                    color="section",
-                    barmode="overlay",
-                    nbins=20,
-                    color_discrete_map={"Remarks": "#1f77b4", "Q&A": "#ff7f0e"},
-                    labels={"net_sentiment": "Net Score (Positive - Negative)"}
+                    nbins=25,
+                    color_discrete_sequence=["#1f77b4"],
+                    labels={"net_sentiment": "Net Sentiment (Positive - Negative)"}
                 )
                 fig_hist.update_layout(margin=dict(l=20, r=20, t=30, b=20))
                 st.plotly_chart(fig_hist, use_container_width=True)
 
             with col_right:
-                st.markdown("#### Narrative Sentiment Flow")
+                st.markdown("#### Narrative Sentiment Flow Across Transcript")
                 fig_line = px.line(
                     df,
                     x="sentence_idx",
                     y="net_sentiment",
-                    color="section",
                     markers=True,
-                    labels={"sentence_idx": "Sentence Sequence", "net_sentiment": "Net Sentiment"},
-                    color_discrete_map={"Remarks": "#1f77b4", "Q&A": "#ff7f0e"}
+                    labels={"sentence_idx": "Sentence Sequence", "net_sentiment": "Net Sentiment Score"},
+                    color_discrete_sequence=["#1f77b4"]
                 )
                 fig_line.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.7)
                 fig_line.update_layout(margin=dict(l=20, r=20, t=30, b=20))
                 st.plotly_chart(fig_line, use_container_width=True)
         else:
-            st.warning("No structured sentence data available for visualization.")
+            st.warning("No sentence data available for visualization.")
 
     with tab_data:
-        st.subheader("Raw Sentiment Output Data")
-        if all_data:
+        st.subheader("Raw Sentence Output Data")
+        if sentence_details:
+            df = pd.DataFrame(sentence_details)
             st.dataframe(
-                df[["section", "label", "net_sentiment", "sentence"]],
+                df[["label", "net_sentiment", "sentence"]],
                 use_container_width=True,
                 height=400
             )
@@ -162,26 +144,51 @@ def render_analytics(results: dict):
 
 def main():
     input_mode = render_sidebar()
-    
+
     st.title("📈 Financial Sentiment & Earnings Analysis Engine")
     st.markdown("Automated sentiment classification and abstractive transcript summarization for financial analysis.")
     st.divider()
 
     pipeline = load_pipeline()
 
-    default_text = """Executive Presentation:
-We delivered exceptional revenue growth of 24% year-over-year, hitting $1.2B in Q4. Gross margins expanded by 150 basis points due to operational efficiency and strong Enterprise adoption. However, supply chain bottlenecks created mild cost headwinds in logistics.
+    default_text = """We delivered exceptional revenue growth of 24% year-over-year, hitting $1.2B in Q4. Gross margins expanded by 150 basis points due to operational efficiency and strong Enterprise adoption. However, supply chain bottlenecks created mild cost headwinds in logistics. Inflation impact on freight cost is real and lingering, and we expect slight margin compression in Q1 before recovery in Q2."""
 
-Question-and-Answer Session:
-Analyst: Can you expand on the supply chain pressures?
-CEO: The inflation impact on freight cost is real and lingering. We expect margin compression in Q1 before recovery in Q2. Demand remains robust, but short-term uncertainty remains high."""
+    if "transcript_text" not in st.session_state:
+        st.session_state["transcript_text"] = default_text
 
-    if input_mode == "Paste Transcript":
-        user_input = st.text_area("Paste Earnings Transcript:", value=default_text, height=220)
+    if input_mode == "Fetch Live Ticker":
+        st.subheader("🌐 Live Earnings Call Transcript Retrieval")
+        col_ticker, col_year, col_quarter = st.columns([2, 1, 1])
+
+        with col_ticker:
+            ticker = st.text_input("Enter Company Stock Ticker:", value="AAPL").strip().upper()
+        with col_year:
+            year = st.number_input("Year:", min_value=2020, max_value=2026, value=2024)
+        with col_quarter:
+            quarter = st.number_input("Quarter:", min_value=1, max_value=4, value=3)
+
+        if st.button("📥 Fetch Transcript", type="secondary"):
+            with st.spinner(f"Fetching Q{quarter} {year} transcript for {ticker} via EarningsCall API..."):
+                try:
+                    fetched_text = fetch_transcript_by_ticker(ticker, year, quarter)
+                    if fetched_text:
+                        st.session_state["transcript_text"] = fetched_text
+                        st.success(f"Successfully retrieved Q{quarter} {year} transcript for **{ticker}**!")
+                    else:
+                        st.warning(f"No transcript found for {ticker} (Q{quarter} {year}). Displaying fallback sample.")
+                except Exception as e:
+                    st.error(f"Error retrieving transcript: {str(e)}")
+
+        user_input = st.text_area(
+            "Active Transcript Text for Pipeline Analysis:",
+            value=st.session_state["transcript_text"],
+            height=250
+        )
+
     else:
-        ticker = st.selectbox("Select Sample Company Ticker:", ["AAPL (Q4 2025)", "NVDA (Q3 2025)", "MSFT (Q4 2025)"])
-        st.info(f"Loaded pre-stored transcript sample for **{ticker}**.")
-        user_input = default_text
+        user_input = st.text_area("Paste Earnings Transcript:", value=st.session_state["transcript_text"], height=250)
+
+    st.divider()
 
     if st.button("🚀 Run Pipeline Analysis", type="primary", use_container_width=True):
         with st.spinner("Analyzing transcript using FinBERT and BART engines..."):

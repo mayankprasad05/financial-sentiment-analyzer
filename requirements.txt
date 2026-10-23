@@ -8,6 +8,11 @@ rouge-score>=0.1.2
 
 # Live Earnings Transcript Data
 earningscall>=1.0.0
+spacy>=3.5.0
+streamlit>=1.22.0
+plotly>=5.14.0
+torch>=2.0.0
+transformers>=4.30.0
 
 # Data Analysis & Scientific Computing
 pandas>=2.0.0

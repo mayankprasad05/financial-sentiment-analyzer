@@ -51,8 +51,8 @@ class EarningsAnalysisPipeline:
             if total_sentences > 0 else 0.0
         )
 
-        # Generate abstractive BART summary
-        summary = self.summarizer.summarize(raw_transcript)
+        # Generate section-aware, LM-guided abstractive summary
+        summary_result = self.summarizer.summarize_with_metadata(raw_transcript)
 
         return {
             "metrics": {
@@ -62,6 +62,7 @@ class EarningsAnalysisPipeline:
                 "neutral_count": neu_count,
                 "total_sentences": total_sentences
             },
-            "summary": summary,
+            "summary": summary_result["summary"],
+            "summary_meta": summary_result,
             "sentence_details": sentence_details
         }

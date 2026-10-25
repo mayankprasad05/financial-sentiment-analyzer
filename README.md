@@ -159,6 +159,13 @@ The app runs two analysis paths side by side, each with its own checkbox:
 - **FinBERT + BART pipeline:** sentence-level sentiment and abstractive summarization
 - **Loughran-McDonald word-level scoring:** category composition, category flow, and sentence-level LM scores for Negative, Positive, Uncertainty, Litigious, Constraining, Superfluous, ModalStrong, and ModalWeak
 
+The sidebar's **Sentiment Engine** selector switches the sentiment analysis between the
+off-the-shelf `ProsusAI/finbert` and the fine-tuned checkpoint in
+`models/finbert_financial_sentiment_ft/`. The fine-tuned option only appears once that
+checkpoint exists (see [Fine-Tuning](#fine-tuning)), and the active engine is captioned
+above the metrics so the two runs are never confused. This choice affects sentiment only:
+the Loughran-McDonald panel is a dictionary lookup, and the summarizer is not fine-tuned.
+
 A full earnings call takes 1-2 minutes to summarize on CPU.
 
 ---

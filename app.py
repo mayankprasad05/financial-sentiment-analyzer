@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 from typing import Any, Dict
 
 import pandas as pd
@@ -15,6 +16,16 @@ setup_logging(log_level=logging.INFO)
 
 SECTION_LABELS = {"prepared_remarks": "Prepared remarks", "qa": "Q&A", "transcript": "Transcript"}
 
+# Sentiment engines the dashboard can run. The fine-tuned option only appears once a
+# checkpoint exists locally (python finetune_sentiment.py).
+OFF_THE_SHELF_SOURCE = "ProsusAI/finbert"
+FINE_TUNED_SOURCE = "models/finbert_financial_sentiment_ft"
+
+ENGINE_LABELS = {
+    "Off-the-shelf FinBERT (ProsusAI/finbert)": OFF_THE_SHELF_SOURCE,
+    "Fine-tuned FinBERT (Financial PhraseBank)": FINE_TUNED_SOURCE,
+}
+
 # Page Setup
 st.set_page_config(
     page_title="FinSentiment AI | Financial Intelligence Engine",
@@ -25,8 +36,9 @@ st.set_page_config(
 
 
 @st.cache_resource
-def load_pipeline() -> EarningsAnalysisPipeline:
-    return EarningsAnalysisPipeline()
+def load_pipeline(sentiment_model: str) -> EarningsAnalysisPipeline:
+    """Cache one pipeline per sentiment engine so switching does not reload weights."""
+    return EarningsAnalysisPipeline(sentiment_model=sentiment_model)
 
 
 @st.cache_resource
@@ -46,9 +58,31 @@ def render_sidebar():
         )
 
         st.divider()
+        st.subheader("Sentiment Engine")
+
+        fine_tuned_available = Path(FINE_TUNED_SOURCE).exists()
+        engine_options = ["Off-the-shelf FinBERT (ProsusAI/finbert)"]
+        if fine_tuned_available:
+            engine_options.append("Fine-tuned FinBERT (Financial PhraseBank)")
+
+        engine_label = st.selectbox("Sentiment Model", engine_options, index=0)
+
+        if fine_tuned_available:
+            st.caption(
+                "Fine-tuned for 3 epochs on 3,600 Financial PhraseBank sentences. "
+                "Held-out accuracy 0.855 vs 0.883 for the off-the-shelf model; the two "
+                "models can label individual sentences differently."
+            )
+        else:
+            st.caption(
+                "Fine-tuned checkpoint not found. Run `python finetune_sentiment.py` to "
+                "train one and enable the second option."
+            )
+
+        st.divider()
         st.subheader("Model Metadata")
-        st.markdown("""
-        * **Sentiment Engine:** `ProsusAI/finbert`
+        st.markdown(f"""
+        * **Sentiment Engine:** `{ENGINE_LABELS[engine_label]}`
         * **Summarizer Engine:** `facebook/bart-large-cnn` (section-aware, LM-guided)
         * **Tokenizer:** SpaCy (`en_core_web_sm`)
         * **Data Fetcher:** `earningscall` API
@@ -57,7 +91,7 @@ def render_sidebar():
         st.divider()
         st.caption("Financial Intelligence & NLP Pipeline")
 
-    return input_mode
+    return input_mode, engine_label
 
 
 def render_lm_analytics(records: Dict[str, Any]):
@@ -172,11 +206,13 @@ def render_lm_analytics(records: Dict[str, Any]):
             st.warning("No sentence-level LM data available for inspection.")
 
 
-def render_analytics(results: dict):
+def render_analytics(results: dict, engine_label: str = ""):
     metrics = results["metrics"]
     sentence_details = results["sentence_details"]
 
     st.subheader("📌 Key Metric Indicators")
+    if engine_label:
+        st.caption(f"Sentiment engine: **{engine_label}** · Summarizer: facebook/bart-large-cnn")
 
     kpi1, kpi2, kpi3, kpi4 = st.columns(4)
 
@@ -290,13 +326,13 @@ def render_analytics(results: dict):
 
 
 def main():
-    input_mode = render_sidebar()
+    input_mode, engine_label = render_sidebar()
 
     st.title("📈 Financial Sentiment & Earnings Analysis Engine")
     st.markdown("Automated sentiment classification and abstractive transcript summarization for financial analysis.")
     st.divider()
 
-    pipeline = load_pipeline()
+    pipeline = load_pipeline(ENGINE_LABELS[engine_label])
     lm_scorer = load_lm_scorer()
 
     default_text = """We delivered exceptional revenue growth of 24% year-over-year, hitting $1.2B in Q4. Gross margins expanded by 150 basis points due to operational efficiency and strong Enterprise adoption. However, supply chain bottlenecks created mild cost headwinds in logistics. Inflation impact on freight cost is real and lingering, and we expect slight margin compression in Q1 before recovery in Q2."""
@@ -369,7 +405,7 @@ def main():
             if run_pipeline:
                 try:
                     results = pipeline.run(user_input)
-                    render_analytics(results)
+                    render_analytics(results, engine_label)
                 except Exception as e:
                     logger.error(f"FinBERT pipeline error: {e}", exc_info=True)
                     st.error(f"FinBERT pipeline processing failed: {str(e)}")

@@ -10,10 +10,16 @@ logger = logging.getLogger(__name__)
 class EarningsAnalysisPipeline:
     """End-to-end NLP pipeline evaluating sentiment and abstractive summarization across transcripts."""
 
-    def __init__(self) -> None:
-        logger.info("Initializing EarningsAnalysisPipeline...")
+    def __init__(self, sentiment_model: str = "ProsusAI/finbert") -> None:
+        """Build the pipeline.
+
+        ``sentiment_model`` is a HuggingFace model id or a local checkpoint directory.
+        Defaults to the off-the-shelf FinBERT so existing callers are unaffected.
+        """
+        logger.info("Initializing EarningsAnalysisPipeline (sentiment_model=%s)...", sentiment_model)
+        self.sentiment_model = sentiment_model
         self.preprocessor = TranscriptPreprocessor()
-        self.sentiment_analyzer = FinancialSentimentAnalyzer()
+        self.sentiment_analyzer = FinancialSentimentAnalyzer(model_source=sentiment_model)
         self.summarizer = TranscriptSummarizer()
 
     def run(self, raw_transcript: str) -> Dict[str, Any]:

@@ -49,7 +49,6 @@ checkpoints/
 data/raw/
 data/processed/
 *.csv
-*.json
 *.log
 
 # ==========================================
@@ -82,3 +81,21 @@ desktop.ini
 .pytest_cache/
 .coverage
 htmlcov/
+
+# ==========================================
+# Datasets & Generated Evaluation Artifacts
+# ==========================================
+# Regenerable binaries: both parquet files are rebuilt from source
+# (see the Model Evaluation section of README.md)
+data/*.parquet
+eval_results/
+
+# ==========================================
+# Fine-Tuned Model Weights
+# ==========================================
+models/
+
+# ==========================================
+# Runtime Logs
+# ==========================================
+logs/

@@ -23,7 +23,7 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
-from src.logger_config import setup_logging
+
 
 logger = logging.getLogger(__name__)
 
@@ -247,8 +247,11 @@ def transcript_to_lm_records(
 
 
 def run_lm_smoke_test() -> Dict[str, object]:
-    """Quick end-to-end check that the LM scorer can load and score text."""
-    setup_logging(log_level=logging.INFO)
+    """Quick end-to-end check that the LM scorer can load and score text.
+
+    Library code never configures global logging; the entry point owns that, so a
+    caller that wants a quiet terminal is not overridden by a second console handler.
+    """
     logger.info("Running Loughran-McDonald word-level smoke test")
 
     scorer = LoughranMcDonaldScorer()
@@ -269,7 +272,10 @@ def run_lm_smoke_test() -> Dict[str, object]:
 
 
 if __name__ == "__main__":
-    setup_logging(log_level=logging.INFO)
+    from src.logger_config import setup_logging, silence_third_party
+
+    setup_logging(log_level=logging.INFO, console_level=logging.WARNING)
+    silence_third_party()
     result = run_lm_smoke_test()
     print("label_schema:", result["label_schema"])
     print("aggregated:")

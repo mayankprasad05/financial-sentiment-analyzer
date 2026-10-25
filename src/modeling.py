@@ -25,11 +25,37 @@ class FinancialSentimentAnalyzer:
             
             logger.debug(f"Loading model from: {model_source}")
             self.model = AutoModelForSequenceClassification.from_pretrained(model_source).to(self.device)
-            self.labels = ["positive", "negative", "neutral"]
-            logger.info("FinBERT model loaded successfully")
+            self.labels = self._resolve_label_order()
+            logger.info("FinBERT model loaded successfully (label order: %s)", self.labels)
         except Exception as e:
             logger.error(f"Failed to load FinBERT model from {model_source}: {e}", exc_info=True)
             raise RuntimeError(f"Failed to load model from {model_source}: {str(e)}") from e
+
+    def _resolve_label_order(self) -> List[str]:
+        """Return the class names in the model's own output order.
+
+        Reading ``config.id2label`` matters for fine-tuned checkpoints: PhraseBank is
+        labelled 0=negative, 1=neutral, 2=positive, while ProsusAI/finbert uses
+        0=positive, 1=negative, 2=neutral. A hardcoded order silently swaps negative and
+        positive predictions for one of the two models, which would corrupt any
+        off-the-shelf vs fine-tuned comparison.
+        """
+        expected = {"positive", "negative", "neutral"}
+        id2label = getattr(self.model.config, "id2label", None) or {}
+
+        if id2label and len(id2label) == len(expected):
+            try:
+                ordered = [str(id2label[index]).lower() for index in sorted(id2label)]
+            except KeyError:
+                ordered = []
+            if set(ordered) == expected:
+                return ordered
+
+        logger.warning(
+            "Model config has no usable id2label; falling back to FinBERT's native order "
+            "(positive, negative, neutral)."
+        )
+        return ["positive", "negative", "neutral"]
 
     def analyze_sentences(
         self, sentences: List[str], batch_size: int = 16, max_length: int = 512

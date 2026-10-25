@@ -29,16 +29,24 @@ numbers are a wiring check, not a benchmark result.
 import argparse
 import json
 import logging
+import os
 import time
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
+# Must be set before transformers / huggingface_hub are imported, otherwise progress
+# bars and hub warnings get written into the terminal alongside the metric table.
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
+os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+os.environ.setdefault("TRANSFORMERS_VERBOSITY", "error")
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+
 import numpy as np
 from rouge_score import rouge_scorer
 
 from src.loughran_mcdonald import LoughranMcDonaldScorer
-from src.logger_config import setup_logging
+from src.logger_config import setup_logging, silence_third_party
 from src.summarizer import (
     DEFAULT_MODEL_NAME,
     SummarizerConfig,
@@ -47,6 +55,27 @@ from src.summarizer import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+def _corpus_rouge(
+    predictions: Sequence[str], references: Sequence[str], scorer: rouge_scorer.RougeScorer
+) -> Dict[str, float]:
+    """Corpus-level ROUGE-1/2/L f-measures for one arm.
+
+    Uses the same per-pair scoring as ``rouge_scores``, so the printed per-arm numbers
+    and the per-example records are computed identically.
+    """
+    sums: Dict[str, float] = {"rouge1": 0.0, "rouge2": 0.0, "rougeL": 0.0}
+    n = 0
+    for prediction, reference in zip(predictions, references):
+        scores = scorer.score(target=reference, prediction=prediction)
+        for key in sums:
+            sums[key] += float(scores[key].fmeasure)
+        n += 1
+    if n == 0:
+        return {"rouge1": 0.0, "rouge2": 0.0, "rougeL": 0.0}
+    return {key: round(v / n, 4) for key, v in sums.items()}
+
 
 OUTPUT_PATH = Path("eval_results/summarization_eval.json")
 
@@ -119,6 +148,12 @@ def load_benchmark(dataset_path: Optional[str]) -> List[Dict[str, str]]:
 
 # --- metrics ----------------------------------------------------------------------
 def rouge_scores(prediction: str, reference: str, scorer: rouge_scorer.RougeScorer) -> Dict[str, float]:
+    """ROUGE-1/2/L f-measures for one prediction/reference pair.
+
+    ``eval_summarization.py`` already depends on ``rouge_score`` (it uses the same
+    package for LM retention / disclaimer suppression), so this avoids the broken
+    ``evaluate.load('rouge')`` path entirely.
+    """
     scores = scorer.score(target=reference, prediction=prediction)
     return {
         "rouge1": float(scores["rouge1"].fmeasure),
@@ -213,6 +248,8 @@ def evaluate_summarizer(
     results: Dict[str, Any] = {"arms": {}, "examples": len(examples)}
 
     for arm_name, config in arms.items():
+        arm_predictions: list[str] = []
+        arm_references: list[str] = []
         logger.info("Evaluating arm: %s", arm_name)
         summarizer.config = config
         arm_records: List[Dict[str, Any]] = []
@@ -233,6 +270,8 @@ def evaluate_summarizer(
             input_text = " ".join(chunk.text for chunk in plan["selected_chunks"])
             input_hedging = hedging_per_1k(lm_scorer, input_text)
 
+            summary_rouge = rouge_scores(summary, reference, rouge)
+
             record: Dict[str, Any] = {
                 "index": index,
                 "summary": summary,
@@ -252,22 +291,29 @@ def evaluate_summarizer(
                 "hedging_per_1k_input": round(input_hedging, 4),
                 "hedging_per_1k_transcript": round(hedging_per_1k(lm_scorer, transcript), 4),
                 "hedging_per_1k_summary": round(hedging_per_1k(lm_scorer, summary), 4),
+                "rouge1": round(summary_rouge["rouge1"], 4),
+                "rouge2": round(summary_rouge["rouge2"], 4),
+                "rougeL": round(summary_rouge["rougeL"], 4),
             }
-            record.update({key: round(value, 4) for key, value in rouge_scores(summary, reference, rouge).items()})
             arm_records.append(record)
+            arm_predictions.append(summary)
+            arm_references.append(reference)
             logger.info(
                 "arm=%s example=%d rougeL=%.4f lm_retention=%s latency=%.1fs",
                 arm_name,
                 index,
-                record["rougeL"],
+                summary_rouge["rougeL"],
                 "n/a" if retention is None else f"{retention:.4f}",
                 latency,
             )
 
+        # Aggregate ROUGE corpus-level for this arm from the same per-pair scores.
+        rouge_metrics = _corpus_rouge(arm_predictions, arm_references, rouge)
+
         results["arms"][arm_name] = {
             "config": asdict(config),
             "records": arm_records,
-            "aggregate": _aggregate(arm_records),
+            "aggregate": _aggregate(arm_records, rouge_metrics=rouge_metrics),
         }
 
     results["comparison"] = _compare(results["arms"])
@@ -287,17 +333,30 @@ _METRIC_KEYS = (
     "chunks_used",
     "latency_seconds",
     "boilerplate_removed_count",
+    # aggregated once per arm via _corpus_rouge (corpus-level), not per-example:
 )
 
 
-def _aggregate(records: Sequence[Dict[str, Any]]) -> Dict[str, float]:
-    """Average every metric over the examples where it is defined."""
+def _aggregate(
+    records: Sequence[Dict[str, Any]], rouge_metrics: Optional[Dict[str, float]] = None
+) -> Dict[str, float]:
+    """Average every metric over the examples where it is defined.
+
+    ROUGE is aggregated once per arm from the arm's predictions rather than by
+    averaging per-example f-measures, which matches how the ROUGE library reports
+    corpus-level scores.
+    """
     if not records:
         return {}
 
     aggregate: Dict[str, float] = {}
     for key in _METRIC_KEYS:
         if key == "lm_retention_coverage":
+            continue
+        if key in ("rouge1", "rouge2", "rougeL") and rouge_metrics is not None:
+            value = rouge_metrics.get(key)
+            if value is not None:
+                aggregate[key] = round(float(value), 4)
             continue
         values = [record[key] for record in records if record.get(key) is not None]
         if values:
@@ -362,11 +421,13 @@ def main() -> None:
     parser.add_argument("--model", default=DEFAULT_MODEL_NAME, help="Summarization model")
     parser.add_argument("--max-examples", type=int, default=0, help="Limit examples (0 = all)")
     parser.add_argument("--ablations", action="store_true", help="Add strip-only and salience-only arms")
-    parser.add_argument("--device", default=None, help="cpu or cuda (default: auto)")
+    parser.add_argument("--device", default=None, help="cpu or cuda (default: auto)", type=str)
     parser.add_argument("--output", default=str(OUTPUT_PATH), help="Where to write the JSON report")
     args = parser.parse_args()
 
-    setup_logging(log_level=logging.INFO)
+    # Console shows only warnings/errors, so the terminal holds just the report table.
+    setup_logging(log_level=logging.INFO, console_level=logging.WARNING)
+    silence_third_party()
 
     examples = load_benchmark(args.dataset)
     if args.max_examples and args.max_examples > 0:

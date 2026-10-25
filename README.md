@@ -8,7 +8,9 @@ An end-to-end financial NLP application built in Python that automatically fetch
 
 * **Live Earnings Call Integration:** Fetches quarterly earnings call transcripts by ticker symbol using the `earningscall` API with an integrated manual text paste fallback.
 * **Domain-Specific Sentiment Analysis:** Utilizes `ProsusAI/finbert` (a BERT model fine-tuned on financial corpora) to classify sentence-level sentiment (Positive, Negative, Neutral) and compute net aggregate sentiment scores.
-* **Abstractive Summarization:** Employs `facebook/bart-large-cnn` via PyTorch and Hugging Face Transformers (`AutoModelForSeq2SeqLM`) to distill lengthy transcripts into executive summaries.
+* **Section-Aware Abstractive Summarization:** Employs `facebook/bart-large-cnn` via PyTorch and Hugging Face Transformers (`AutoModelForSeq2SeqLM`) to distill lengthy transcripts into executive summaries, after stripping safe-harbor boilerplate and separating prepared remarks from Q&A.
+* **Word-Level Loughran-McDonald Scoring:** Scores text against the Loughran-McDonald Master Dictionary across eight financial categories (Negative, Positive, Uncertainty, Litigious, Constraining, Superfluous, ModalStrong, ModalWeak).
+* **Fine-Tuning and Evaluation Harness:** Trains FinBERT on Financial PhraseBank and compares it against the off-the-shelf model on an identical held-out split, alongside a summarization harness that measures the guided pipeline against a legacy truncation baseline.
 * **Sentence Tokenization:** Uses SpaCy (`en_core_web_sm`) for natural language boundary parsing.
 * **Interactive Financial Telemetry:** Visualizes sentence sentiment distribution, score distributions, and narrative trajectory using Plotly charts inside a Streamlit web app.
 * **Modular Codebase:** Organized using Object-Oriented Design (OOD) principles with distinct separation between data fetchers, preprocessing pipelines, model inference, and UI rendering.
@@ -20,31 +22,45 @@ An end-to-end financial NLP application built in Python that automatically fetch
 ```text
 financial-sentiment-analyzer/
 │
-├── app.py                  # Streamlit web dashboard & UI layout
-├── requirements.txt        # Core dependencies & versions
-├── .gitignore              # Git exclusion rules for environments/cache
-├── README.md               # Project documentation
+├── app.py                      # Streamlit web dashboard & UI layout
+├── eval.py                     # Sentiment evaluation (off-the-shelf vs fine-tuned)
+├── eval_lm_word_level.py       # Word-level Loughran-McDonald evaluation
+├── eval_summarization.py       # Summarization harness (guided vs legacy truncation)
+├── finetune_sentiment.py       # FinBERT fine-tuning on Financial PhraseBank
+├── requirements.txt            # Core dependencies & versions
+├── .gitignore                  # Git exclusion rules for environments/cache
+├── README.md                   # Project documentation
 │
-└── src/                    # Core source code modules
+├── data/                       # Local dataset snapshots (regenerated per setup)
+│   ├── financial_phrasebank.parquet
+│   └── loughran_mcdonald.parquet
+├── eval_results/               # Generated reports & confusion matrices
+├── models/                     # Saved fine-tuned model artifacts
+│
+└── src/                        # Core source code modules
     ├── __init__.py
-    ├── fetcher.py          # Fetches earnings call transcripts via API
-    ├── preprocessing.py    # SpaCy NLP sentence tokenization & cleaning
-    ├── modeling.py         # FinBERT sentiment classification engine
-    ├── summarizer.py       # BART abstractive summarization engine
-    └── pipeline.py         # Orchestrates fetch, preprocess, model, & summary
+    ├── fetcher.py              # Fetches earnings call transcripts via API
+    ├── preprocessing.py        # SpaCy NLP sentence tokenization & cleaning
+    ├── modeling.py             # FinBERT sentiment classification engine
+    ├── loughran_mcdonald.py    # LM Master Dictionary scorer (8 categories)
+    ├── summarizer.py           # Section-aware, LM-guided BART summarizer
+    ├── logger_config.py        # Logging configuration (file + console levels)
+    └── pipeline.py             # Orchestrates fetch, preprocess, model, & summary
 
 ```
 
 ## Getting Started
+
 ### Prerequisites
-Ensure you have Python 3.9+ installed.
+Ensure you have **Python 3.10 or newer** installed. The evaluation scripts use modern
+type syntax (`str | None`), which is not valid on 3.9 and earlier.
 
 ### Installation
 Clone the Repository:
 
-``` bash
-git clone [https://github.com/your-username/financial-sentiment-analyzer](https://github.com/your-username/financial-sentiment-analyzer)
-cd financial-sentiment-engine
+```bash
+git clone https://github.com/your-username/financial-sentiment-analyzer
+cd financial-sentiment-analyzer
 ```
 
 ### Create and Activate a Virtual Environment:
@@ -77,7 +93,60 @@ python -m spacy download en_core_web_sm
 
 ---
 
+## Datasets
+
+Two local snapshots are required. Both live under `data/`, and the commands below rebuild
+them from source.
+
+| File | Used by | Purpose |
+|---|---|---|
+| `data/loughran_mcdonald.parquet` | app, summarizer, `eval_lm_word_level.py`, `eval_summarization.py` | Loughran-McDonald Master Dictionary |
+| `data/financial_phrasebank.parquet` | `eval.py`, `finetune_sentiment.py` | Labelled sentiment corpus |
+
+`data/loughran_mcdonald.parquet` is **not only an evaluation asset**. `TranscriptSummarizer`
+loads the LM scorer to rank sentences during chunk selection, so the Streamlit app cannot
+produce a summary without it.
+
+### Loughran-McDonald Master Dictionary
+
+Convert the master CSV once:
+
+```bash
+python -c "import pandas as pd; df = pd.read_csv('Loughran-McDonald_MasterDictionary_1993-2025.csv'); df.to_parquet('data/loughran_mcdonald.parquet')"
+```
+
+### Financial PhraseBank
+
+Build the labelled corpus from the original archive:
+
+```bash
+python - <<'PY'
+import zipfile, pandas as pd
+from huggingface_hub import hf_hub_download
+
+# Sentences_50Agree: 4,846 sentences, kept when at least half the annotators agree.
+path = hf_hub_download("takala/financial_phrasebank", "data/FinancialPhraseBank-v1.0.zip", repo_type="dataset")
+raw = zipfile.ZipFile(path).read("FinancialPhraseBank-v1.0/Sentences_50Agree.txt").decode("latin-1")
+
+labels = {"negative": 0, "neutral": 1, "positive": 2}
+rows = []
+for line in raw.splitlines():
+    if line.strip():
+        sentence, _, label = line.rpartition("@")
+        rows.append({"sentence": sentence.strip(), "label": labels[label.strip()]})
+
+pd.DataFrame(rows).to_parquet("data/financial_phrasebank.parquet")
+print("saved 4,846 sentences with columns: sentence, label")
+PY
+```
+
+The resulting file has two columns — `sentence` and `label` (0 = negative, 1 = neutral,
+2 = positive) — which is what `eval.py` and `finetune_sentiment.py` both expect.
+
+---
+
 ## Running the Application
+
 ### Launch the Streamlit web interface locally:
 
 ```bash
@@ -85,45 +154,114 @@ streamlit run app.py
 ```
 The application will open in your browser at http://localhost:8501.
 
-The app now runs two analysis paths side by side:
+The app runs two analysis paths side by side, each with its own checkbox:
 
 - **FinBERT + BART pipeline:** sentence-level sentiment and abstractive summarization
 - **Loughran-McDonald word-level scoring:** category composition, category flow, and sentence-level LM scores for Negative, Positive, Uncertainty, Litigious, Constraining, Superfluous, ModalStrong, and ModalWeak
+
+A full earnings call takes 1-2 minutes to summarize on CPU.
 
 ---
 
 ## Model Evaluation
 
-The project now has two evaluation paths:
+The project has three evaluation scripts: `eval.py` for sentiment, `eval_lm_word_level.py`
+for lexical scoring, and `eval_summarization.py` for summaries.
 
-- **Sentence-level FinBERT evaluation:** uses `data/loughran_mcdonald.parquet` as the local dataset backing and is run with:
-
-  ```bash
-  python eval.py
-  ```
-
-  This updates performance reports and saves artifacts (such as finbert_confusion_matrix.png and summary_metrics.json) into the eval_results/ directory.
-
-- **Word-level Loughran-McDonald evaluation:** uses the Master Dictionary to score text by financial sentiment categories:
-
-  ```bash
-  python eval_lm_word_level.py
-  ```
-
-  Category schema: Negative, Positive, Uncertainty, Litigious, Constraining, Superfluous, ModalStrong, ModalWeak.
-
-  It also supports fetching transcripts with the same earningscall flow as the rest of the app:
-
-  ```bash
-  python eval_lm_word_level.py --ticker AAPL --year 2024 --quarter 3
-  ```
-
-
-If you have the CSV file (`Loughran-McDonald_MasterDictionary_1993-2025.csv`), convert it once:
+### Sentence-Level Sentiment
 
 ```bash
-python -c "import pandas as pd; from pathlib import Path; df = pd.read_csv('Loughran-McDonald_MasterDictionary_1993-2025.csv'); df.to_parquet('data/loughran_mcdonald.parquet')"
+python eval.py
 ```
+
+`eval.py` takes **no command-line arguments**. It reads `data/financial_phrasebank.parquet`,
+shuffles with a fixed seed, and builds a 3,600 / 400 / 800 train / validation / test split.
+Evaluation is on the 800 held-out sentences only.
+
+Output:
+
+- per-class precision, recall and F1 for negative / neutral / positive
+- accuracy, macro precision, macro recall and macro F1
+- BART ROUGE-1/2/L on the small built-in summarization benchmark, in the same run
+
+Macro F1 is the headline number rather than accuracy, because 62% of the test split is
+neutral: a constant "neutral" predictor would score 62% accuracy but only about 0.25 macro
+F1.
+
+Artifacts written to `eval_results/`:
+
+| File | Contents |
+|---|---|
+| `finbert_confusion_matrix.png` | off-the-shelf confusion matrix |
+| `finbert_financial_sentiment_ft_confusion_matrix.png` | fine-tuned confusion matrix (only when a checkpoint exists) |
+| `sentiment_comparison.json` | accuracy and macro precision/recall/F1 for both models, plus deltas |
+
+If `models/finbert_financial_sentiment_ft/` exists, the fine-tuned model is included
+automatically and a side-by-side table is printed — see [Fine-Tuning](#fine-tuning). A run
+with the comparison enabled takes roughly 4 minutes on CPU, versus 2 minutes for the
+off-the-shelf model alone.
+
+### Word-Level Loughran-McDonald
+
+```bash
+python eval_lm_word_level.py
+```
+
+Prints per-sentence and aggregated category shares against the eight-category schema
+(Negative, Positive, Uncertainty, Litigious, Constraining, Superfluous, ModalStrong,
+ModalWeak). This is a dictionary lookup, so there is no accuracy figure — the output is a
+category composition, not a prediction.
+
+It also supports fetching transcripts with the same earningscall flow as the rest of the app:
+
+```bash
+python eval_lm_word_level.py --ticker AAPL --year 2024 --quarter 3
+```
+
+### Summarization
+
+See [Summarization Evaluation](#summarization-evaluation) below.
+
+---
+
+## Fine-Tuning
+
+`finetune_sentiment.py` fine-tunes `ProsusAI/finbert` on Financial PhraseBank and saves a
+checkpoint that the rest of the project loads directly.
+
+```bash
+python finetune_sentiment.py
+python finetune_sentiment.py --epochs 5 --batch-size 32
+python finetune_sentiment.py --cpu
+```
+
+| Option | Default | Meaning |
+|---|---|---|
+| `--sample-size` | 4800 | Rows taken from the corpus before splitting |
+| `--test-size` | 800 | Held-out sentences; must match `eval.py` |
+| `--epochs` | 3 | Training epochs |
+| `--batch-size` | 16 | Batch size |
+| `--learning-rate` | 2e-5 | Learning rate |
+| `--max-length` | 64 | Token truncation length |
+| `--seed` | 42 | Seed for the shuffle and the split |
+| `--output-dir` | `models/finbert_financial_sentiment_ft` | Where the checkpoint is written |
+| `--cpu` | off | Force CPU training |
+
+The split is imported from `eval.load_phrasebank_test_split`, so the model trains on the same
+3,600 sentences and is measured on exactly the 800 that `eval.py` scores. Using a separate
+split here would leak training sentences into the test set and inflate the reported accuracy.
+
+Outputs under `models/finbert_financial_sentiment_ft/`: model weights, tokenizer, a
+`config.json` carrying `id2label`, and `fine_tune_metrics.json` with the test metrics, split
+sizes and hyperparameters. Training takes about 42 minutes on CPU (3 epochs, batch size 16,
+`max_length=64`).
+
+**Expected result: fine-tuning does not improve the score here.** On this project's run the
+fine-tuned model reached 0.8538 accuracy / 0.8329 macro F1 against the off-the-shelf model's
+0.8825 / 0.8723 — a drop of roughly 3 points. That is expected rather than a bug:
+`ProsusAI/finbert` was itself trained on Financial PhraseBank, so fine-tuning on a subset of
+the same corpus and evaluating on the same distribution cannot beat it. A genuine gain would
+require out-of-domain data such as earnings-call sentences.
 
 ---
 
@@ -186,7 +324,8 @@ Benchmark format is JSONL (or a JSON list), one object per line:
 ```
 
 Without `--dataset` the harness runs a two-example built-in smoke benchmark, which is a
-wiring check, not a benchmark result. Results are written to
+wiring check, not a benchmark result: both examples fit in a single chunk and contain no
+boilerplate, so every delta is exactly zero. Results are written to
 `eval_results/summarization_eval.json`.
 
 ---

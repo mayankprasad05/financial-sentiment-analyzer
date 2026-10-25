@@ -1,7 +1,15 @@
 import json
 import logging
+import os
 from pathlib import Path
 from typing import Dict, List, Any, Optional
+
+# Must be set before transformers / huggingface_hub are imported, otherwise progress
+# bars and hub warnings get written into the terminal alongside the metric tables.
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
+os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+os.environ.setdefault("TRANSFORMERS_VERBOSITY", "error")
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
 import numpy as np
 import pandas as pd
@@ -11,11 +19,9 @@ import seaborn as sns
 
 from sklearn.metrics import classification_report, confusion_matrix, precision_recall_fscore_support
 from datasets import load_dataset
-import evaluate
-
 from src.modeling import FinancialSentimentAnalyzer
 from src.summarizer import TranscriptSummarizer
-from src.logger_config import setup_logging
+from src.logger_config import setup_logging, silence_third_party
 
 logger = logging.getLogger(__name__)
 
@@ -45,22 +51,25 @@ def load_phrasebank_test_split(
         sample_size,
         test_size,
     )
-    parquet_path = Path("data/loughran_mcdonald.parquet")
+    parquet_path = Path("data/financial_phrasebank.parquet")
     if not parquet_path.exists():
         raise FileNotFoundError(
-            "Local dataset snapshot not found at data/loughran_mcdonald.parquet.\n\n"
-            "Convert the Loughran-McDonald file once with the project venv python:\n\n"
+            "Local dataset snapshot not found at data/financial_phrasebank.parquet.\n\n"
+            "Download the Financial PhraseBank once from HuggingFace and save it as a parquet:\n\n"
             "    python - <<'PY'\n"
-            "    import pandas as pd\n"
-            "    df = pd.read_csv('Loughran-McDonald_MasterDictionary_1993-2025.csv')\n"
-            "    df.to_parquet('data/loughran_mcdonald.parquet')\n"
-            "    print('saved to data/loughran_mcdonald.parquet')\n"
+            "    from datasets import load_dataset\n"
+            "    load_dataset('financial_phrasebank', split='sentences_50agree', trust_remote_code=True)\n"
+            "        .to_parquet('data/financial_phrasebank.parquet')\n"
+            "    print('saved to data/financial_phrasebank.parquet')\n"
             "    PY\n\n"
             "The current capstone setup uses a one-time local parquet copy instead.\n"
         )
 
     df = pd.read_parquet(parquet_path)
-    df = df.head(max(sample_size, test_size + 50))
+    # Shuffle before slicing so the capped sample is representative of the whole file
+    # (the raw PhraseBank file is not ordered randomly).
+    df = df.sample(frac=1.0, random_state=seed).reset_index(drop=True)
+    df = df.head(min(len(df), max(sample_size, test_size + 50)))
 
     logger.info("Loaded Financial PhraseBank snapshot with %d rows", len(df))
 
@@ -82,6 +91,18 @@ def load_phrasebank_test_split(
         "val": train_split["test"],
         "test": test_split,
     }
+
+
+def artifact_name(model_source: str) -> str:
+    """Filesystem-safe stem for a model source.
+
+    Handles both Hub ids ("ProsusAI/finbert") and local paths
+    ("models/finbert_financial_sentiment_ft" on Windows, with backslashes), so the
+    confusion-matrix filename never contains a path separator.
+    """
+    stem = Path(str(model_source)).name or str(model_source)
+    safe = "".join(character if character.isalnum() or character in "-_" else "_" for character in stem)
+    return safe.strip("_") or "model"
 
 
 def evaluate_model_on_test(
@@ -181,7 +202,7 @@ def run_sentiment_comparison(
 
     # 1. Off-the-shelf model
     oos_analyzer = FinancialSentimentAnalyzer(model_source=off_the_shelf_source, device=device)
-    oos_name = off_the_shelf_source.replace("/", "_")
+    oos_name = artifact_name(off_the_shelf_source)
     results["off_the_shelf"] = evaluate_model_on_test(
         oos_analyzer,
         test_split,
@@ -194,7 +215,7 @@ def run_sentiment_comparison(
     ft_name = None
     if fine_tuned_source:
         ft_analyzer = FinancialSentimentAnalyzer(model_source=fine_tuned_source, device=device)
-        ft_name = fine_tuned_source.replace("/", "_")
+        ft_name = artifact_name(fine_tuned_source)
         ft_sentences = list(test_split["sentence"])
         ft_y_true = [LABEL_MAP[label_id] for label_id in test_split["label"]]
         ft_results = ft_analyzer.analyze_sentences(ft_sentences, batch_size=batch_size, max_length=max_length)
@@ -290,10 +311,29 @@ def run_sentiment_comparison(
             },
         }
     else:
+        # No fine-tuned model available: still record the off-the-shelf scores so the
+        # artifact contains the numbers instead of only a note.
+        oos = results["off_the_shelf"]
         comparison = {
             "off_the_shelf": oos_name,
             "fine_tuned": None,
-            "note": "Only the off-the-shelf model was evaluated. Pass fine_tuned_source to enable the comparison.",
+            "test_samples": len(test_split),
+            "accuracy": {"off_the_shelf": oos["accuracy"], "fine_tuned": None, "delta": None},
+            "macro_precision": {
+                "off_the_shelf": oos["macro_precision"],
+                "fine_tuned": None,
+                "delta": None,
+            },
+            "macro_recall": {
+                "off_the_shelf": oos["macro_recall"],
+                "fine_tuned": None,
+                "delta": None,
+            },
+            "macro_f1": {"off_the_shelf": oos["macro_f1"], "fine_tuned": None, "delta": None},
+            "note": (
+                "Only the off-the-shelf model was evaluated. Pass fine_tuned_source "
+                "to enable the comparison."
+            ),
         }
 
     # Save comparison artifacts
@@ -317,6 +357,24 @@ def evaluate_finbert(analyzer: FinancialSentimentAnalyzer, sample_size: int = 30
     logger.info("--- Starting FinBERT Sentiment Analysis Evaluation ---")
     splits = load_phrasebank_test_split(sample_size=sample_size, test_size=200)
     return evaluate_model_on_test(analyzer, splits["test"], model_name="finbert")
+
+
+def _rouge_fscore(prediction: str, reference: str) -> Dict[str, float]:
+    """ROUGE-1/2/L f-measures via the installed ``rouge_score`` package.
+
+    This project's environment has ``rouge_score`` installed but the HuggingFace
+    ``evaluate.load('rouge')`` path is not available, so both eval scripts use this
+    helper instead of ``evaluate``.
+    """
+    from rouge_score import rouge_scorer as _rs
+
+    scorer = _rs.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
+    scores = scorer.score(target=reference, prediction=prediction)
+    return {
+        "rouge1": float(scores["rouge1"].fmeasure),
+        "rouge2": float(scores["rouge2"].fmeasure),
+        "rougeL": float(scores["rougeL"].fmeasure),
+    }
 
 
 def evaluate_bart(summarizer: TranscriptSummarizer) -> Dict[str, float]:
@@ -352,71 +410,76 @@ def evaluate_bart(summarizer: TranscriptSummarizer) -> Dict[str, float]:
         }
     ]
 
-    logger.info("Loading ROUGE evaluation metric...")
-    rouge_metric = evaluate.load("rouge")
-
-    predictions = []
-    references = []
-
     logger.info("Generating predictions using TranscriptSummarizer...")
+    predictions: list[str] = []
+    references: list[str] = []
+
     for idx, item in enumerate(eval_benchmark, start=1):
         generated_summary = summarizer.summarize(item["transcript"], max_length=100, min_length=20)
         predictions.append(generated_summary)
         references.append(item["reference"])
-        logger.debug(f"Sample {idx} - Generated: {generated_summary}")
+        logger.debug("Sample %d - Generated: %s", idx, generated_summary)
 
-    scores = rouge_metric.compute(predictions=predictions, references=references)
+    rouge1 = float(np.mean([_rouge_fscore(p, r)["rouge1"] for p, r in zip(predictions, references)]))
+    rouge2 = float(np.mean([_rouge_fscore(p, r)["rouge2"] for p, r in zip(predictions, references)]))
+    rougeL = float(np.mean([_rouge_fscore(p, r)["rougeL"] for p, r in zip(predictions, references)]))
 
     print("\n================ BART ROUGE EVALUATION METRICS ================")
-    print(f"ROUGE-1 : {scores['rouge1']:.4f}")
-    print(f"ROUGE-2 : {scores['rouge2']:.4f}")
-    print(f"ROUGE-L : {scores['rougeL']:.4f}")
+    print(f"ROUGE-1 : {rouge1:.4f}")
+    print(f"ROUGE-2 : {rouge2:.4f}")
+    print(f"ROUGE-L : {rougeL:.4f}")
     print("===============================================================")
 
     return {
-        "rouge1": scores["rouge1"],
-        "rouge2": scores["rouge2"],
-        "rougeL": scores["rougeL"]
+        "rouge1": rouge1,
+        "rouge2": rouge2,
+        "rougeL": rougeL,
     }
 
 
 def main():
-    print("eval.py main() started")
-    setup_logging(log_level=logging.INFO)
-    logger.info("Starting Offline Model Evaluation Suite")
+    # Console shows only warnings/errors, so the terminal holds just the metric tables.
+    # logs/app.log still receives every INFO record.
+    setup_logging(log_level=logging.INFO, console_level=logging.WARNING)
+    silence_third_party()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    logger.info("Evaluation executing on hardware device: %s", device)
+    logger.info("Starting Offline Model Evaluation Suite on device: %s", device)
 
     default_fine_tuned = Path("models/finbert_financial_sentiment_ft")
     fine_tuned_source = str(default_fine_tuned) if default_fine_tuned.exists() else None
 
     # 1. Sentiment comparison (off-the-shelf vs fine-tuned, if available)
     try:
-        print("eval.py: starting sentiment comparison")
-        sentiment_comparison = run_sentiment_comparison(
+        run_sentiment_comparison(
             off_the_shelf_source="ProsusAI/finbert",
-            fine_tuned_source=None,
-            sample_size=1200,
-            test_size=200,
+            fine_tuned_source=fine_tuned_source,
+            sample_size=4800,
+            test_size=800,
             device=device,
             batch_size=16,
             max_length=512,
         )
-        print("eval.py: sentiment comparison done")
     except Exception as e:
-        print(f"\n❌ Sentiment comparison failed: {e}\n")
+        import traceback as _tb
+
+        print(f"\n!! Sentiment comparison failed: {e}\n")
+        print(_tb.format_exc())
         logger.error("Sentiment comparison failed: %s", e, exc_info=True)
 
     # 2. BART Summarization Model Evaluation
     try:
-        print("eval.py: starting BART evaluation")
         summarizer = TranscriptSummarizer(device=device)
-        bart_metrics = evaluate_bart(summarizer)
-        print("eval.py: BART evaluation done")
+        evaluate_bart(summarizer)
     except Exception as e:
-        print(f"\n❌ BART Evaluation Failed: {e}\n")
+        import traceback as _tb
+
+        print(f"\n!! BART Evaluation Failed: {e}\n")
+        print(_tb.format_exc())
         logger.error("BART evaluation failed: %s", e, exc_info=True)
 
     logger.info("Model evaluation pipeline finished. Results saved in 'eval_results/'.")
-    print("eval.py main() finished")
+
+
+if __name__ == "__main__":
+    main()

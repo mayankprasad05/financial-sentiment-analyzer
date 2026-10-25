@@ -14,16 +14,26 @@ Usage:
 
 import argparse
 import logging
+import os
+
+# Must be set before transformers / huggingface_hub are imported, otherwise progress
+# bars and hub warnings get written into the terminal alongside the score blocks.
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
+os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+os.environ.setdefault("TRANSFORMERS_VERBOSITY", "error")
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
 from src.loughran_mcdonald import LoughranMcDonaldScorer
 from src.loughran_mcdonald import run_lm_smoke_test
 from src.loughran_mcdonald import transcript_to_lm_records
-from src.logger_config import setup_logging
+from src.logger_config import setup_logging, silence_third_party
 from src.fetcher import fetch_transcript_by_ticker
 
 
 def main(ticker: str | None = None, year: int = 2024, quarter: int = 3) -> None:
-    setup_logging(log_level=logging.INFO)
+    # Console shows only warnings/errors, so the terminal holds just the score blocks.
+    setup_logging(log_level=logging.INFO, console_level=logging.WARNING)
+    silence_third_party()
     logger = logging.getLogger(__name__)
     logger.info("Starting word-level Loughran-McDonald evaluation")
 

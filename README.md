@@ -353,7 +353,7 @@ words (which, for an earnings call, is the safe-harbor disclaimer). It runs five
 4. **LM-guided selection** - each sentence is scored with the Loughran-McDonald dictionary
    (positive/negative density) plus numeric density (revenue/margin/guidance figures), and
    penalized for litigious/constraining/uncertainty hedging. Chunks are selected within a
-   4800-token input budget: prepared remarks get up to 60% of it (the Q&A is usually several
+   5600-token input budget: prepared remarks get up to 60% of it (the Q&A is usually several
    times longer, while the prepared block carries the results and guidance), the Q&A gets the
    rest, and every section keeps at least one chunk.
 5. **Sectioned map-reduce generation** - each selected chunk is summarized, then the chunk

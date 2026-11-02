@@ -214,7 +214,7 @@ def render_analytics(results: dict, engine_label: str = ""):
     if engine_label:
         st.caption(f"Sentiment engine: **{engine_label}** · Summarizer: facebook/bart-large-cnn")
 
-    kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+    kpi1, kpi2, kpi3, kpi4, kpi5 = st.columns(5)
 
     net_sentiment = metrics["overall_net_sentiment"]
     total = metrics["total_sentences"]
@@ -237,6 +237,11 @@ def render_analytics(results: dict, engine_label: str = ""):
         delta_color="inverse"
     )
     kpi4.metric(
+        label="Neutral Sentences",
+        value=metrics["neutral_count"],
+        delta=f"{(metrics['neutral_count'] / total * 100) if total else 0:.1f}% of the call"
+    )
+    kpi5.metric(
         label="Total Sentences Parsed",
         value=total
     )
@@ -352,7 +357,7 @@ def main():
             quarter = st.number_input("Quarter:", min_value=1, max_value=4, value=3)
 
         if st.button("📥 Fetch Transcript", type="secondary"):
-            with st.spinner(f"Fetching Q{quarter} {year} transcript for {ticker} via EarningsCall API..."):
+            with st.spinner(f"Fetching Q{quarter} {year} transcript for {ticker}"):
                 try:
                     fetched_text = fetch_transcript_by_ticker(ticker, year, quarter)
                     if fetched_text:

@@ -49,6 +49,71 @@ financial-sentiment-analyzer/
 
 ```
 
+<arg_value>
+### Workflow
+
+```text
+                        ┌─────────────────────────────┐
+                        │     Transcript source       │
+                        │  earningscall API  OR  paste │
+                        └──────────────┬──────────────┘
+                                       │
+                                       ▼
+                        ┌─────────────────────────────┐
+                        │  TranscriptPreprocessor      │
+                        │  SpaCy sentence tokenization │
+                        └──────────────┬──────────────┘
+                    sentences feed every path below │
+          ┌──────────────────┬────────┴───────────────┐
+          │                  │                        │
+          ▼                  ▼                        ▼
+┌──────────────────┐ ┌────────────────────┐ ┌─────────────────────┐
+│ FinBERT          │ │ TranscriptSummarizer│ │ LoughranMcDonald     │
+│ (modeling.py)    │ │ (summarizer.py)     │ │ Scorer               │
+│                  │ │                     │ │ (loughran_mcdonald.py)│
+│ batch inference  │ │ 1. strip boilerplate │ │                     │
+│ → per-sentence   │ │ 2. split sections    │ │ word index over the  │
+│   positive /     │ │  (prepared / Q&A)     │ │ Master Dictionary;   │
+│   negative /     │ │ 3. chunk (900 tok)   │ │ per-sentence score   │
+│   neutral labels │ │ 4. LM-guided select  │◄┤ shares + densities   │
+│ → net sentiment  │ │ 5. BART per chunk    │ │ (these densities are │
+│ → aggregates     │ │ 6. per-section       │ │ the salience signal  │
+│                  │ │    map-reduce reduce │ │ for stage 4)         │
+└────────┬─────────┘ └──────────┬──────────┘ └──────────┬──────────┘
+         │                     │                        │
+         └─────────────┬──────┴────────────────────────┘
+                       ▼
+            ┌─────────────────────────────┐
+            │ EarningsAnalysisPipeline     │
+            │ (pipeline.py) → results dict │
+            └──────────────┬──────────────┘
+                           ▼
+            ┌─────────────────────────────┐
+            │ Streamlit dashboard (app.py) │
+            │ sentiment KPIs, Plotly flow  │
+            │ charts, executive summary +  │
+            │ LM word-level panels         │
+            └─────────────────────────────┘
+```
+
+The model-training and evaluation scripts are offline counterparts to this flow: they reuse
+the same loaders but target the `data/` snapshots and `eval_results/` outputs.
+
+```text
+┌────────────────────────┐   same fixed split   ┌──────────────────────────┐
+│ finetune_sentiment.py  │ ───────────────────► │ eval.py                   │
+│ FinBERT + PhraseBank   │  imported from       │ off-the-shelf vs          │
+│ → checkpoint + metrics │  eval.load_…split    │ fine-tuned metrics,       │
+└────────────────────────┘                      │ confusion matrices        │
+                                                 └──────────────────────────┘
+┌────────────────────────┐                      ┌──────────────────────────┐
+│ eval_summarization.py  │                      │ eval_lm_word_level.py    │
+│ guided vs legacy       │                      │ word-level LM category   │
+│ truncation, ROUGE +    │                      │ shares (smoke test or    │
+│ LM retention metrics   │                      │ fetched transcript)      │
+└────────────────────────┘                      └──────────────────────────┘
+```
+
 ## Getting Started
 
 ### Prerequisites

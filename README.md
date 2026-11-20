@@ -122,7 +122,7 @@ type syntax (`str | None`), which is not valid on 3.9 and earlier.
 Clone the Repository:
 
 ```bash
-git clone https://github.com/your-username/financial-sentiment-analyzer
+git clone https://github.com/mayankprasad05/financial-sentiment-analyzer
 cd financial-sentiment-analyzer
 ```
 

@@ -49,7 +49,6 @@ financial-sentiment-analyzer/
 
 ```
 
-<arg_value>
 ### Workflow
 
 ```text
